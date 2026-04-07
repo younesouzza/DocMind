@@ -8,15 +8,24 @@ import chromadb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
-from .config import settings
+from config import settings
+
+# If Tesseract is installed but not on PATH, set the binary location explicitly.
+for path in [
+    r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+    r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+]:
+    if os.path.exists(path):
+        pytesseract.pytesseract.tesseract_cmd = path
+        break
 
 
 class Rag_engine :
-    def init(self):
+    def __init__(self):
         print("loading rag engine")
 
 
-        self.spliter = RecursiveCharacterTextSplitter(chunk_size= settings.CHUNK_SIZE ,chunk_overla= settings.CHUNK_OVERLAP )
+        self.spliter = RecursiveCharacterTextSplitter(chunk_size= settings.CHUNK_SIZE ,chunk_overlap= settings.CHUNK_OVERLAP )
 
         self.embeder = SentenceTransformer(settings.EMBEDDING_MODEL)
 
@@ -91,12 +100,12 @@ class Rag_engine :
         
         chunks = self.spliter.split_text(text)
 
-        for i, chunk in enumerate[chunks]:
+        for i, chunk in enumerate(chunks):
             embedding = self.embeder.encode(chunk).tolist()
             chroma_id = f"{doc_id}{i}"
 
             self.collection.add(
-                id = chroma_id,
+                ids = chroma_id,
                 embeddings = [embedding],
                 documents= [chunk],
                 metadatas= [{"doc_id" : doc_id , "filename": file_name}]
@@ -110,7 +119,7 @@ class Rag_engine :
 
         results = self.collection.query(
             query_embeddings= [query_embedding],
-            n_results= [k]
+            n_results= k
         )
 
 
@@ -140,24 +149,6 @@ class Rag_engine :
     
 
 rag_engine = Rag_engine()
-
-
-
-
-
-
-
-        
-
-
-
-        
-
-        
-
-
-        
-
 
 
 
