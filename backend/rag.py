@@ -10,7 +10,6 @@ from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from config import settings
 
-# If Tesseract is installed but not on PATH, set the binary location explicitly.
 for path in [
     r"C:\Program Files\Tesseract-OCR\tesseract.exe",
     r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",

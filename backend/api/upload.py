@@ -1,4 +1,3 @@
-# backend/api/upload.py
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
 from models import Document, get_db

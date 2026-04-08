@@ -11,3 +11,4 @@ sentence-transformers
 pytesseract
 pillow
 python-docx
+duckduckgo-search
